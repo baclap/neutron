@@ -4,7 +4,8 @@ body {
     overflow: hidden;
 }
 
-.input-bar {
+header {
+    width: 100%;
     background: #ccc;
     display: flex;
 }
@@ -26,7 +27,6 @@ body {
 .go-button-container {
     flex-shrink: 0;
     padding: 10px;
-    padding-left: 0;
 }
 
 #go-button {
@@ -38,37 +38,13 @@ body {
     color: #fff;
 }
 
-#tab-bar-div {
-    background: #ccc;
-}
-
-.tab-button {
-    padding: 5px 10px;
-    font-size: 12px;
-    line-height:  1;
-    background: #ccc;
-    border: 1px solid #333;
-    margin-right: 5px;
-    border-bottom: 0;
-}
-
-.tab-button.active {
-    background: #333;
-    color: #fff;
-}
-
-.webpage-iframe {
+#webpage-iframe {
     position: absolute;
-    top: 69px;
+    top: 46px;
     left: 0;
     right: 0;
     bottom: 0;
     border: 0;
     width: 100%;
     height: 100%;
-    visibility: hidden;
-}
-
-.webpage-iframe.active {
-    visibility: visible;
 }
