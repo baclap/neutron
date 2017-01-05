@@ -50,6 +50,10 @@ body {
     border: 1px solid #333;
     margin-right: 5px;
     border-bottom: 0;
+    max-width: 150px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .tab-button.active {

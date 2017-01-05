@@ -58,12 +58,16 @@ module.exports = function tabManagerFactory(blankPageUrl) {
     }
 
     function bindTabHandlers(tabIndex) {
-        selector.tabButton(tabIndex).addEventListener('click', () => { changeActiveTab(tabIndex); });
-        var tabWebview = selector.tabWebview(tabIndex);
+        const tabButton = selector.tabButton(tabIndex);
+        tabButton.addEventListener('click', () => { changeActiveTab(tabIndex); });
+        const tabWebview = selector.tabWebview(tabIndex);
         tabWebview.addEventListener('will-navigate', (e) => {
             if (isActiveTab(tabWebview)) {
                 selector.urlInput().value = e.url;
             }
+        });
+        tabWebview.addEventListener('did-navigate', () => {
+            tabButton.textContent = tabWebview.getTitle();
         });
     }
 
