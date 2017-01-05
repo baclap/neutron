@@ -57,7 +57,7 @@ body {
     color: #fff;
 }
 
-.tab-iframe {
+.tab-webview {
     position: absolute;
     top: 69px;
     left: 0;
@@ -69,6 +69,6 @@ body {
     visibility: hidden;
 }
 
-.tab-iframe.active {
+.tab-webview.active {
     visibility: visible;
 }

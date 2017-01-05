@@ -14,14 +14,14 @@ const selector = {
     activeTabButton() {
         return document.querySelector('.tab-button.active');
     },
-    activeTabIframe() {
-        return document.querySelector('.tab-iframe.active');
+    activeTabWebview() {
+        return document.querySelector('.tab-webview.active');
     },
     tabButton(tabIndex) {
         return document.querySelector(`[data-tabindex='${tabIndex}'].tab-button`);
     },
-    tabIframe(tabIndex) {
-        return document.querySelector(`[data-tabindex='${tabIndex}'].tab-iframe`);
+    tabWebview(tabIndex) {
+        return document.querySelector(`[data-tabindex='${tabIndex}'].tab-webview`);
     }
 };
 

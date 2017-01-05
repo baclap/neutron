@@ -31,14 +31,14 @@ const selector = {
     activeTabButton() {
         return document.querySelector('.tab-button.active');
     },
-    activeTabIframe() {
-        return document.querySelector('.tab-iframe.active');
+    activeTabWebview() {
+        return document.querySelector('.tab-webview.active');
     },
     tabButton(tabIndex) {
         return document.querySelector(`[data-tabindex='${tabIndex}'].tab-button`);
     },
-    tabIframe(tabIndex) {
-        return document.querySelector(`[data-tabindex='${tabIndex}'].tab-iframe`);
+    tabWebview(tabIndex) {
+        return document.querySelector(`[data-tabindex='${tabIndex}'].tab-webview`);
     }
 };
 
@@ -47,12 +47,12 @@ module.exports = selector;
 },{}],3:[function(require,module,exports){
 const selector = require('./selector');
 
-function buildTabIframe(nextTabIndex) {
-    const tabIframe = document.createElement('iframe');
-    tabIframe.src = 'new-tab-page.html';
-    tabIframe.className = 'tab-iframe active';
-    tabIframe.setAttribute('data-tabindex', nextTabIndex);
-    return tabIframe;
+function buildTabWebview(nextTabIndex) {
+    const tabWebview = document.createElement('webview');
+    tabWebview.src = 'new-tab-page.html';
+    tabWebview.className = 'tab-webview active';
+    tabWebview.setAttribute('data-tabindex', nextTabIndex);
+    return tabWebview;
 }
 
 function buildTabButton(nextTabIndex) {
@@ -65,7 +65,7 @@ function buildTabButton(nextTabIndex) {
 
 function deactiveCurrentActiveTabs() {
     selector.activeTabButton().classList.remove('active');
-    selector.activeTabIframe().classList.remove('active');
+    selector.activeTabWebview().classList.remove('active');
 }
 
 module.exports = function tabManagerFactory() {
@@ -74,8 +74,8 @@ module.exports = function tabManagerFactory() {
     function createNewTabButton() {
         deactiveCurrentActiveTabs();
         const tabButton = buildTabButton(nextTabIndex);
-        const tabIframe = buildTabIframe(nextTabIndex);
-        document.body.appendChild(tabIframe);
+        const tabWebview = buildTabWebview(nextTabIndex);
+        document.body.appendChild(tabWebview);
         selector.tabBarDiv().insertBefore(tabButton, selector.createTabButton());
         bindTabClickHandler(nextTabIndex);
         nextTabIndex += 1;
@@ -85,14 +85,14 @@ module.exports = function tabManagerFactory() {
         // TODO ensure http at beginning
         const urlInput = selector.urlInput();
         const url = urlInput.value;
-        selector.activeTabIframe().src = url;
+        selector.activeTabWebview().src = url;
         urlInput.value = 'http://';
     }
 
     function changeActiveTab(newActiveTabIndex) {
         deactiveCurrentActiveTabs();
         selector.tabButton(newActiveTabIndex).classList.add('active');
-        selector.tabIframe(newActiveTabIndex).classList.add('active');
+        selector.tabWebview(newActiveTabIndex).classList.add('active');
     }
 
     function bindTabClickHandler(tabIndex) {
