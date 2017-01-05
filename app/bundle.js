@@ -2,17 +2,20 @@
 const selector = require('./selector');
 const tabManagerFactory = require('./tab-manager-factory');
 
-const tabManager = tabManagerFactory();
-selector.goButton().addEventListener('click', tabManager.goToPage);
-selector.urlInput().addEventListener('keyup', (e) => {
-    // enter
-    if (e.keyCode === 13) {
-        tabManager.goToPage();
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    console.log(selector.activeTabWebview().src)
+    const tabManager = tabManagerFactory(selector.activeTabWebview().src);
+    selector.goButton().addEventListener('click', tabManager.goToPage);
+    selector.urlInput().addEventListener('keyup', (e) => {
+        // enter
+        if (e.keyCode === 13) {
+            tabManager.goToPage();
+        }
+    });
+    selector.createTabButton().addEventListener('click', tabManager.createNewTabButton);
+    // bind tab click handler to initial tab
+    tabManager.bindTabClickHandler(0);
 });
-selector.createTabButton().addEventListener('click', tabManager.createNewTabButton);
-// bind tab click handler to initial tab
-tabManager.bindTabClickHandler(0);
 
 },{"./selector":2,"./tab-manager-factory":3}],2:[function(require,module,exports){
 const selector = {
@@ -68,7 +71,7 @@ function deactiveCurrentActiveTabs() {
     selector.activeTabWebview().classList.remove('active');
 }
 
-module.exports = function tabManagerFactory() {
+module.exports = function tabManagerFactory(blankPageUrl) {
     let nextTabIndex = 1;
 
     function createNewTabButton() {
@@ -79,6 +82,7 @@ module.exports = function tabManagerFactory() {
         selector.tabBarDiv().insertBefore(tabButton, selector.createTabButton());
         bindTabClickHandler(nextTabIndex);
         nextTabIndex += 1;
+        selector.urlInput().value = 'http://';
     }
 
     function goToPage() {
@@ -86,13 +90,17 @@ module.exports = function tabManagerFactory() {
         const urlInput = selector.urlInput();
         const url = urlInput.value;
         selector.activeTabWebview().src = url;
-        urlInput.value = 'http://';
     }
 
     function changeActiveTab(newActiveTabIndex) {
         deactiveCurrentActiveTabs();
         selector.tabButton(newActiveTabIndex).classList.add('active');
         selector.tabWebview(newActiveTabIndex).classList.add('active');
+        let activeTabSrc = selector.activeTabWebview().src;
+        if (activeTabSrc === blankPageUrl) {
+            activeTabSrc = 'http://';
+        }
+        selector.urlInput().value = activeTabSrc;
     }
 
     function bindTabClickHandler(tabIndex) {

@@ -21,7 +21,7 @@ function deactiveCurrentActiveTabs() {
     selector.activeTabWebview().classList.remove('active');
 }
 
-module.exports = function tabManagerFactory() {
+module.exports = function tabManagerFactory(blankPageUrl) {
     let nextTabIndex = 1;
 
     function createNewTabButton() {
@@ -32,6 +32,7 @@ module.exports = function tabManagerFactory() {
         selector.tabBarDiv().insertBefore(tabButton, selector.createTabButton());
         bindTabClickHandler(nextTabIndex);
         nextTabIndex += 1;
+        selector.urlInput().value = 'http://';
     }
 
     function goToPage() {
@@ -39,13 +40,17 @@ module.exports = function tabManagerFactory() {
         const urlInput = selector.urlInput();
         const url = urlInput.value;
         selector.activeTabWebview().src = url;
-        urlInput.value = 'http://';
     }
 
     function changeActiveTab(newActiveTabIndex) {
         deactiveCurrentActiveTabs();
         selector.tabButton(newActiveTabIndex).classList.add('active');
         selector.tabWebview(newActiveTabIndex).classList.add('active');
+        let activeTabSrc = selector.activeTabWebview().src;
+        if (activeTabSrc === blankPageUrl) {
+            activeTabSrc = 'http://';
+        }
+        selector.urlInput().value = activeTabSrc;
     }
 
     function bindTabClickHandler(tabIndex) {
