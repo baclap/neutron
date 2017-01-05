@@ -12,5 +12,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     selector.createTabButton().addEventListener('click', tabManager.createNewTabButton);
     // bind tab click handler to initial tab
-    tabManager.bindTabClickHandler(0);
+    tabManager.bindTabHandlers(0);
 });
