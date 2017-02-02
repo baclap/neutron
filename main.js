@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, session } = require('electron');
 const path = require('path');
 const url = require('url');
 
@@ -6,7 +6,15 @@ const url = require('url');
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
+function clearAllSessionData() {
+    session.defaultSession.clearStorageData([], () => {
+        console.log('Cookies cleared');
+    });
+}
+
 function createWindow () {
+    clearAllSessionData();
+
     // Create the browser window.
     win = new BrowserWindow({ width: 1000, height: 800 });
 
@@ -18,10 +26,17 @@ function createWindow () {
     }));
 
     // Open the DevTools.
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
     // Emitted when the window is closed.
     win.on('closed', () => {
+        clearAllSessionData();
+
+        // show cookies
+        // console.log(session.defaultSession.cookies.get({}, (error, cookies) => {
+        //     console.log(error, cookies)
+        // }));
+
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
